@@ -62,9 +62,26 @@ def check_draw():
     return np.all(board != 0)
 
 
+def switch_player(current_player):
+    if current_player == 1:
+        return 2
+    else:        
+        return 1
+
+
+def Random_ai_move():
+    empty_cells = np.argwhere(board == 0)
+    if len(empty_cells) > 0:
+        row, col = empty_cells[np.random.choice(len(empty_cells))]
+        board[row][col] = 2
+
+
 current_player = 1
 while True:
-    player_mov(current_player)
+    if current_player == 1:
+        player_mov(current_player)
+    else:
+        Random_ai_move()
     os.system("cls")
     printboard()
     if check_win(current_player):
@@ -73,7 +90,4 @@ while True:
     if check_draw():
         print("It's a draw!")
         break
-    if current_player == 1:
-        current_player = 2
-    else:
-        current_player = 1
+    current_player = switch_player(current_player)
