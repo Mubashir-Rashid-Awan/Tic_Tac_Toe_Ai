@@ -102,14 +102,92 @@ def smart_ai_move():
     
     Random_ai_move()                      # if no winning move, blocking move, center or corner is available, take a random move
 
+def minimax(is_maximizing):
+     
+    if check_win(2):
+        return 1
+    if check_win(1):
+        return -1
+    if check_draw():
+        return 0
 
+      
+    if is_maximizing:
+        best_score = -1000
+        empty_cells = np.argwhere(board == 0) 
+        for row,col in empty_cells:
+            board[row][col] = 2
+            score = minimax(False)
+            board[row][col] = 0
+            best_score = max(score, best_score)
+        return best_score
+    else:
+        best_score = 1000
+        empty_cells = np.argwhere(board == 0) 
+        for row,col in empty_cells:
+            board[row][col] = 1
+            score = minimax(True)
+            board[row][col] = 0
+            best_score = min(score, best_score)
+        return best_score
+
+def best_move():
+    best_score = -1000
+    move_row = None
+    move_col = None
+    empty_cells = np.argwhere(board == 0) 
+    for row,col in empty_cells:
+        board[row][col] = 2
+        score = minimax(False)
+        board[row][col] = 0
+        if score > best_score:
+            best_score = score
+            move_row = row
+            move_col = col
+    if move_row is not None and move_col is not None:
+        board[move_row][move_col] = 2
+
+
+def mode_Selection(): 
+    print("Select game mode:")
+    print("1. Player vs Player")
+    print("2. Player vs Random AI")
+    print("3. Player vs Smart AI")
+    print("4. Player vs Minimax AI")
+    
+    while True:
+        choice = input("Choice: ")
+        if choice in ['1','2','3','4']:
+            return choice
+        print("Invalid choice. Please enter a number between 1 and 4.")
+
+  
+def print_header():
+    print("|=====================|")
+    print("|==== TIC TAC TOE ====|")
+    print("|=======   AI  =======|")
+    print("|=====================|")
+
+print_header()
+mode = mode_Selection()
+os.system("cls")
 current_player = 1
+print_header()
 while True:
     if current_player == 1:
-        player_mov(current_player)
+        player_mov(1)
     else:
-        smart_ai_move()
+        if mode == '1':
+            player_mov(2)
+        elif mode == '2':
+            Random_ai_move()
+        elif mode == '3':
+            smart_ai_move()
+        elif mode == '4':
+            best_move()
+
     os.system("cls")
+    print_header()
     printboard()
     if check_win(current_player):
         print(f"Player {current_player} wins!")
