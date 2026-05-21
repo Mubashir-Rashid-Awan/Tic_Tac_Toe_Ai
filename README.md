@@ -22,11 +22,11 @@ This game allows players to compete either against another player or against dif
 ## 📁 Project Structure
 
 TicTacToe/
-│
-├── main.py      # Main game loop
-├── board.py     # Board setup and display
-├── game.py      # Game logic (win, draw, switching player)
-├── ai.py        # AI implementations
+│    
+├── main.py      # Main game loop      
+├── board.py     # Board setup and display   
+├── game.py      # Game logic (win, draw, switching player)   
+├── ai.py        # AI implementations   
 ├── README.md    # Documentation
 
 
